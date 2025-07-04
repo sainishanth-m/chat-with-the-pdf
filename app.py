@@ -9,7 +9,8 @@ from langchain.chains import RetrievalQA
 from langchain.llms import OpenAI as OpenAILLM
 
 # 🔐 Add your OpenAI API key here
-openai.api_key = "sk-REPLACE_WITH_YOUR_KEY"
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+
 
 st.set_page_config(page_title="Chat with Your Notes", layout="wide")
 st.title("Chat with Your Notes (PDF Q&A Bot)")
