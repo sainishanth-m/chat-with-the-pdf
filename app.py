@@ -21,7 +21,7 @@ if uploaded_file:
 
     loader = PyPDFLoader("temp.pdf")
     docs = loader.load()
-    splitter = RecursiveCharacterTextSplitter(chunk_size=1000, overlap=200)
+    splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = splitter.split_documents(docs)
 
     embeddings = OpenAIEmbeddings()
