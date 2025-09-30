@@ -1,21 +1,23 @@
-# Chat with Your PDF (Gemini-powered)
+# 📄 Chat With Your PDF
 
-This is a simple Streamlit app that lets you upload a PDF and ask questions about its content using Google Gemini AI.
+A simple Streamlit web app that lets you upload a PDF and ask questions about its content using **Google Gemini**.
 
-## Features
-- Upload any PDF
-- Ask natural language questions
-- Powered by Gemini 1.5 Flash (Google AI)
+## 🚀 Features
+- Upload any PDF file
+- Extracts text automatically
+- Ask questions in plain English
+- Powered by Gemini AI
 
-## How to Use
-1. Upload a PDF file
-2. Ask your question in the text box
-3. Get an AI-generated answer based on the PDF
+## 🛠️ Tech Stack
+- [Streamlit](https://streamlit.io/) - for the UI
+- [Google Gemini](https://ai.google.dev/) - for text generation
+- [PyMuPDF](https://pymupdf.readthedocs.io/) - for PDF text extraction
 
-## Setup
+## 🔑 Setup Instructions
 
-### Install requirements
-```bash
-pip install -r requirements.txt
+1. Clone this repo or upload to Streamlit Cloud.
+2. Create a **Gemini API Key** from [Google AI Studio](https://aistudio.google.com/).
+3. In Streamlit Cloud, add a secret:
+
 
 
