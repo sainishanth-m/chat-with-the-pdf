@@ -2,11 +2,15 @@ import streamlit as st
 import fitz  # PyMuPDF
 import google.generativeai as genai
 
-# Load Gemini API key from Streamlit secrets
+# 🔑 Configure Gemini API key from Streamlit secrets
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # Load Gemini model
-model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-1.5-flash-latest")
+
+# 📄 Streamlit UI setup
+st.set_page_config(page_title="Chat with Your Notes", layout="wide")
+st.title("📄 Chat With Your PDF")
 
 # Function to extract text from PDF
 def extract_pdf_text(pdf_file):
@@ -16,18 +20,14 @@ def extract_pdf_text(pdf_file):
             text += page.get_text()
     return text
 
-# Streamlit UI
-st.set_page_config(page_title="PDF Q&A Bot", layout="wide")
-st.title("📄 Chat With Your PDF (Gemini-powered)")
-
-# File uploader
+# 📁 File uploader
 pdf = st.file_uploader("Upload a PDF", type="pdf")
 
 if pdf:
     text = extract_pdf_text(pdf)
     st.success("✅ PDF content extracted.")
 
-    # Text input for user question
+    # 📝 User question
     question = st.text_input("Ask a question based on the PDF:")
 
     if question:
@@ -39,3 +39,4 @@ if pdf:
                 st.write(response.text)
             except Exception as e:
                 st.error(f"Gemini API Error: {str(e)}")
+
