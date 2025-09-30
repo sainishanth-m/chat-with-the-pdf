@@ -14,7 +14,8 @@ st.set_page_config(
 # 🔑 Configure Gemini API key from Streamlit secrets
 try:
     genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-    model = genai.GenerativeModel("gemini-1.5-flash-latest")
+    # *** FIX: Using the stable model name 'gemini-2.5-flash' to resolve the 404 error ***
+    model = genai.GenerativeModel("gemini-2.5-flash") 
 except Exception as e:
     st.error("🚨 Configuration Error: GEMINI_API_KEY not found in Streamlit secrets.")
     st.stop()
@@ -73,10 +74,13 @@ def extract_pdf_text(pdf_file):
 def generate_response(prompt):
     """Generates content using the Gemini model with the PDF text as context."""
     try:
+        # The generate_content call is made here
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        st.error(f"Gemini API Error: Could not generate response. {str(e)}")
+        # Changed the error message to be more user-friendly
+        st.error(f"Gemini API Error: Could not generate response. Please check your API key and model name.")
+        print(f"Detailed Error: {e}") # Print detailed error to console for debugging
         return "An error occurred while generating the response."
 
 # --- 4. STREAMLIT APPLICATION LOGIC ---
