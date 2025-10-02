@@ -12,10 +12,11 @@ st.set_page_config(
 
 # 🔑 Configure Gemini API key from Streamlit secrets
 try:
+    # Using the stable model: gemini-2.5-flash
     genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-    model = genai.GenerativeModel("gemini-2.5-flash") # Using the stable model
+    model = genai.GenerativeModel("gemini-2.5-flash") 
 except Exception:
-    # This error will only show if the API key is missing
+    # This block handles the case where the API key might be missing in secrets
     pass 
 
 # Initialize session state for chat history and PDF content
@@ -195,6 +196,13 @@ def extract_pdf_text(pdf_file):
 
 def generate_response(prompt):
     """Generates content using the Gemini model with the PDF text as context."""
+    # Safety check for configuration
+    try:
+        if not genai.get_default_model():
+            return "Configuration Error: Gemini API key is missing. Please check your Streamlit secrets."
+    except:
+        return "Configuration Error: Gemini API key is missing. Please check your Streamlit secrets."
+        
     if not st.session_state.pdf_text:
         return "Please upload and process a PDF first."
         
@@ -205,7 +213,7 @@ def generate_response(prompt):
         response = model.generate_content(full_prompt)
         return response.text
     except Exception as e:
-        return f"Gemini API Error: Could not generate response. Please check your API key. Error: {str(e)}"
+        return f"Gemini API Error: Could not generate response. Error: {str(e)}"
 
 # --- 4. MAIN LANDING PAGE RENDER ---
 
@@ -226,7 +234,9 @@ def render_landing_page():
     with st.container():
         st.markdown('<div class="upload-box-container">', unsafe_allow_html=True)
         
-        # We need a placeholder for the default file uploader text/icon as Streamlit injects its own
+        # Streamlit requires the actual uploader component for file handling
+        
+        # Display custom icon/text above the uploader
         st.markdown("""
             <p style='color: #7f8c8d; margin-bottom: 20px;'>Click to upload, or drag PDF here</p>
         """, unsafe_allow_html=True)
@@ -431,5 +441,3 @@ if st.session_state.pdf_uploaded:
     render_chat_interface()
 else:
     render_landing_page()
-
-```eof
